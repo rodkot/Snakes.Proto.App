@@ -24,9 +24,9 @@ class MainActivity : BaseActivity() {
     private fun SetupNavigation() {
         NavHost(navController = navController, startDestination = Screen.Menu.route) {
             composable(Screen.Menu.route) { MenuScreen(navController) }
-            composable(Screen.HighScores.route) { HighScoreScreen(navController) }
+          //  composable(Screen.HighScores.route) { HighScoreScreen(navController) }
             composable(Screen.Settings.route) { SettingScreen(navController) }
-            composable(Screen.About.route) { AboutScreen(navController) }
+           // composable(Screen.About.route) { AboutScreen(navController) }
         }
     }
 }

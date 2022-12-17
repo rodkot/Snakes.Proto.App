@@ -12,10 +12,13 @@ import kotlinx.coroutines.launch
 import ru.nsu.ccfit.R
 import ru.nsu.ccfit.game.data.GameCache
 import ru.nsu.ccfit.game.data.TOP_10
-import ru.nsu.ccfit.game.data.model.HighScore
+import ru.nsu.ccfit.game.data.model.*
+import ru.nsu.ccfit.game.message.MessageManager
 import ru.nsu.ccfit.game.view.GameEngine
 import ru.nsu.ccfit.game.view.screen.EndScreen
 import ru.nsu.ccfit.game.view.screen.GameScreen
+import java.net.DatagramSocket
+import java.net.MulticastSocket
 
 class GameActivity : BaseActivity() {
     private lateinit var dataStore: GameCache
@@ -24,8 +27,22 @@ class GameActivity : BaseActivity() {
     private lateinit var scope: CoroutineScope
     private lateinit var playerName: String
     private lateinit var highScores: List<HighScore>
+
     private var gameEngine = GameEngine(
         scope = lifecycleScope,
+        config = GameConfig(),
+        stateGame   =
+                StateGame(
+                    foods = listOf(Food(Coord(4, 5))),
+                    owner = User(
+                        name = "dd",
+                        snake = Snake(
+                            list = listOf(Coord(2, 2)),
+                            direction = Snake.Direction.DOWN
+                        )
+                    )
+                ),
+        manager = MessageManager(DatagramSocket(), MulticastSocket()),
         onGameEnded = {
             if (isPlaying.value) {
                 isPlaying.value = false
@@ -47,13 +64,14 @@ class GameActivity : BaseActivity() {
         Column {
             if (isPlaying.value) {
                 GameScreen(gameEngine, score.value)
-            } else {
-                EndScreen(score.value) {
-                    score.value = 0
-                    gameEngine.reset()
-                    isPlaying.value = true
-                }
             }
+//            else {
+//                EndScreen(score.value) {
+//                    score.value = 0
+//                    gameEngine.reset()
+//                    isPlaying.value = true
+//                }
+//            }
         }
     }
 }

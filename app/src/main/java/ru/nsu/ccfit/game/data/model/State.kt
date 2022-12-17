@@ -1,6 +1,6 @@
 package ru.nsu.ccfit.game.data.model
 data class State(
-    val food: Pair<Int, Int>,
-    val snake: List<Pair<Int, Int>>,
-    val currentDirection: Int
+    val stateOrder: Int,
+    val foods: List<Food>,
+    val users: List<User>
 )

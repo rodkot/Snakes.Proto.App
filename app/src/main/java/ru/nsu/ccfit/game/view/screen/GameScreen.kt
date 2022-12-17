@@ -19,6 +19,8 @@ import ru.nsu.ccfit.game.view.SnakeDirection
 @Composable
 fun GameScreen(gameEngine: GameEngine, score: Int) {
     val state = gameEngine.state.collectAsState(initial = null)
+    val config = gameEngine.config;
+
     val activity = LocalContext.current as GameActivity
     AppBar(
         title = stringResource(id = R.string.your_score, score),
@@ -27,7 +29,7 @@ fun GameScreen(gameEngine: GameEngine, score: Int) {
             modifier = Modifier.padding(contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            state.value?.let { Board(it) }
+            state.value?.let { Board(it,config) }
             Controller {
                 when (it) {
                     SnakeDirection.Up -> gameEngine.move = Pair(0, -1)
